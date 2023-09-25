@@ -1,0 +1,396 @@
+.heading{
+    text-align: center;
+    text-decoration: underline;
+    font-family: system-ui;
+}
+
+.mainClass{
+    background-color: lightcyan;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.studentClass{
+    font-family: sans-serif;
+    font-size: 20px;
+    background-color: gray;
+    width: 40%;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 9px;
+}
+
+.studentImage{
+    margin-top: 5px;
+}
+
+.image{
+    width: 185px;
+    height: 180px;
+}
+
+.outputClass{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelFname{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.inputFname{
+    width:220px;
+    margin-left: 25px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.labelLname{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.inputLname{
+    width: 220px;
+    margin-left: 27px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.labelDob{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.inputDob{
+    width: 220px;
+    margin-left: 5px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.labelGender{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.inputGender{
+    width: 220px;
+    margin-left: 63px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.labelId{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.inputId{
+    width: 220px;
+    margin-left: 28px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
+@media (max-width: 576px){
+    .studentClass{
+        margin-top: 3%;
+        width: 97%;
+        height: 475px;
+    }
+
+    .image{
+        width: 170px;
+        height: 170px;
+    }
+
+    .labelFname{
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .inputFname{
+        width: 200px;
+        margin-left: 23px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelLname{
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .inputLname{
+        width: 200px;
+        margin-left: 25px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelDob{
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .inputDob{
+        width: 200px;
+        margin-left: 10px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelGender{
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .inputGender{
+        width: 200px;
+        margin-left: 50px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelId{
+        font-weight: bold;
+        font-size: 16px;
+    }
+    
+    .inputId{
+        width: 200px;
+        margin-left: 24px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}
+
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
+@media (min-width: 577px) and (max-width: 786px){
+    .studentClass{
+        margin-top: 3%;
+        width: 97%;
+        height: 520px;
+    }
+
+    .studentImage {
+        margin-top: 10px;
+    }
+
+    .image{
+        width: 170px;
+        height: 170px;
+    }
+
+    .labelFname{
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .inputFname{
+        width: 250px;
+        margin-left: 25px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelLname{
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .inputLname{
+        width: 250px;
+        margin-left: 27px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelDob{
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .inputDob{
+        width: 250px;
+        margin-left: 4px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelGender{
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .inputGender{
+        width: 250px;
+        margin-left: 67px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelId{
+        font-weight: bold;
+        font-size: 25px;
+    }
+    
+    .inputId{
+        width: 250px;
+        margin-left: 28px;
+        font-size: 20px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}
+
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
+@media (min-width: 787px) and (max-width: 992px){
+    .studentClass{
+        margin-top: 3%;
+        width: 97%;
+        height: 557px;
+    }
+
+    .studentImage {
+        margin-top: 10px;
+    }
+
+    .image{
+        width: 175px;
+        height: 175px;
+    }
+
+    .labelFname{
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .inputFname{
+        width: 300px;
+        margin-left: 35px;
+        font-size: 25px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelLname{
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .inputLname{
+        width: 300px;
+        margin-left: 39px;
+        font-size: 25px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelDob{
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .inputDob{
+        width: 300px;
+        margin-left: 11px;
+        font-size: 25px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelGender{
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .inputGender{
+        width: 300px;
+        margin-left: 86px;
+        font-size: 25px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelId{
+        font-weight: bold;
+        font-size: 30px;
+    }
+    
+    .inputId{
+        width: 300px;
+        margin-left: 45px;
+        font-size: 25px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .buttonClass {
+        margin-top: 34px;
+        margin-bottom: 7px;
+    }
+}

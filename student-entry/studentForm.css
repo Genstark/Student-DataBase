@@ -1,0 +1,196 @@
+.heading{
+    text-align: center;
+    font-size: 21px;
+    text-decoration: 5px solid underline;
+    font-family: system-ui;
+    /* color: gray; */
+    color: #0f5257;
+}
+
+.container{
+    /* text-align: center; */
+    box-sizing: border-box;
+}
+
+.mainclass{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    /* background-color: darkgrey; */
+    background-color: #0f5257;
+    border-radius: 5px;
+    padding: 16px;
+}
+
+.inputclass{
+    margin-top: 16px;
+}
+
+.labelfname{
+    font-weight: bold;
+    font-size: large;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.fname{
+    border-width: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    height: 35px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.labellname{
+    font-weight: bold;
+    font-size: large;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.lname{
+    border-width: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    height: 35px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.labeldob{
+    font-weight: bold;
+    font-size: large;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.date{
+    width: 24%;
+    border-width: 2px;
+    box-sizing: border-box;
+    padding-left: 8px;
+    height: 26px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.month{
+    width: 29%;
+    border-width: 2px;
+    box-sizing: border-box;
+    padding-left: 8px;
+    height: 26px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.year{
+    width: 44%;
+    border-width: 2px;
+    box-sizing: border-box;
+    padding-left: 8px;
+    height: 26px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.labelgender{
+    font-weight: bold;
+    font-size: large;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.gender{
+    width: 148px;
+    font-size: 18px;
+    font-family: sans-serif;
+    border-radius: 9px;
+    border-width: 3px;
+}
+
+
+.imageFile{
+    margin-top: 22px;
+    font-size: 12px;
+}
+
+.submitdata{
+    width: 100%;
+    height: 42px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 15px;
+    border-radius: 8px;
+    margin-top: 40px;
+}
+
+.viewdata{
+    width: 108px;
+    height: 38px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+.next-page{
+    /* text-align: center; */
+    margin-top: 20px;
+}
+
+.change-view{
+    width: 100%;
+    height: 42px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+
+
+@media (max-width: 576px){
+    .heading{
+        text-align: center;
+        font-size: 18px;
+        text-decoration: 5px solid underline;
+        font-family: system-ui;
+        color: gray;
+    }
+
+    .date{
+        width: 24%;
+        border-width: 2px;
+        box-sizing: border-box;
+        padding-left: 8px;
+        height: 26px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+    
+    .month{
+        width: 28%;
+        border-width: 2px;
+        box-sizing: border-box;
+        padding-left: 8px;
+        height: 26px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+    
+    .year{
+        width: 44%;
+        border-width: 2px;
+        box-sizing: border-box;
+        padding-left: 8px;
+        height: 26px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+} 
