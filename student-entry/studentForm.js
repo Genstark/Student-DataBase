@@ -72,12 +72,21 @@ function studentData(){
         const studentDetail = {
             "studentFname": studentFname.value.toLowerCase(),
             "studentLname": studentLname.value.toLowerCase(),
-            "studentDateOfBirth": studentDate.value+"-"+studentMonth.value+"-"+studentYear.value,
+            "studentDateOfBirth": studentYear.value+"-"+dateCorrection(studentMonth.value)+"-"+dateCorrection(studentDate.value),
             "studentGender": studentGender.value,
             "studentImage": studentImage.value.split('\\').pop()
         }
 
         return studentDetail;
+    }
+}
+
+function dateCorrection(date){
+    if(date < 10){
+        return ("0"+date);
+    }
+    else{
+        return date;
     }
 }
 
@@ -90,6 +99,7 @@ function studentPhoto(){
     console.log(fileName);
     console.log(fileExtension);
 }
+
 
 
 const submitData = document.getElementById("submitdata");
@@ -137,14 +147,14 @@ async function postRequest() {
         body: JSON.stringify(studentData())
     }
 
-    localStorage.setItem("item", JSON.stringify(confirmRequest));
+    // localStorage.setItem("item", JSON.stringify(confirmRequest));
 
-    await fetch(apiUrl, apiOption).then((res) => {
+    await fetch(apiUrl, apiOption).then(res => {
         return res.json();
     }).then(data => {
         if(data['message'] === 'ok'){
             confirmRequest.splice(0, confirmRequest.length);
-            localStorage.clear("item");
+            // localStorage.clear("item");
             console.log(data);
         }
     }).catch(err => {
@@ -164,40 +174,38 @@ function dataRecievetoServer(){
 }
 
 
-/*
-document.addEventListener("DOMContentLoaded", rePostRequest);
+// document.addEventListener("DOMContentLoaded", rePostRequest);
 
-function rePostRequest(){
-    try{
-        let localData = JSON.parse(localStorage.getItem("item"));
+// function rePostRequest(){
+//     try{
+//         let localData = JSON.parse(localStorage.getItem("item"));
 
-        if(localData.length !== 0 && localData.length === 1){
-            const apiUrl = "http://localhost:2000/students";
-            const apiOption = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(localData[0])
-            }
+//         if(localData.length !== 0 && localData.length === 1){
+//             const apiUrl = "http://localhost:2000/students";
+//             const apiOption = {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(localData[0])
+//             }
 
-            fetch(apiUrl, apiOption).then((res) => {
-                return res.text();
-            }).then((data) => {
-                if(data === "ok"){
-                    localStorage.clear();
-                    console.log(data);
-                }
-            }).catch(err => {
-                console.log("disconnected with server");
-            });
-        }
-        else if(localData.length > 1){
-            localStorage.clear();
-        }
-    }
-    catch(err){
-        console.log("local storage is empty");
-    }
-}
-*/
+//             fetch(apiUrl, apiOption).then((res) => {
+//                 return res.text();
+//             }).then((data) => {
+//                 if(data === "ok"){
+//                     localStorage.clear();
+//                     console.log(data);
+//                 }
+//             }).catch(err => {
+//                 console.log("disconnected with server");
+//             });
+//         }
+//         else if(localData.length > 1){
+//             localStorage.clear();
+//         }
+//     }
+//     catch(err){
+//         console.log("local storage is empty");
+//     }
+// }

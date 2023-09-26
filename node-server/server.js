@@ -29,7 +29,7 @@ const studentDataCollection = [];
 const PORT = 2000;
 
 app.get("/students", (req, res) => {
-    res.json(studentDataCollection);
+    res.send(studentDataCollection);
 });
 
 app.get('/students/:id', (req, res) => {
@@ -40,10 +40,9 @@ app.get('/students/:id', (req, res) => {
     //     if(studentDataCollection[index]['studentId'] === userId){
     //         // res.send(studentDataCollection[index]);
     //         res.json({
-    //             message: "Single student data",
-    //             StudentIdData: studentDataCollection[index],
-    //             indexValue: index
-    //         });
+    //             message: 'single student data',
+    //             studentId: userId,
+    //         })
     //     }
     // });
 
@@ -62,7 +61,7 @@ app.get('/students/:id', (req, res) => {
 
 const storage = multer.diskStorage({
     destination:(req , file , cb) => {
-        cb(null, __dirname+'/uploads')
+        cb(null, __dirname+'/uploads');
     },
     filename:(req, file, cb) => {
         const fileExtension = path.extname(file.originalname);
@@ -85,7 +84,7 @@ app.post('/students/image', upload.single('file'), (req, res) => {
 
     console.table(studentDataCollection);
     
-    // writeJsonFile();
+    // writeJsonFile(studentDataCollection);
     // readJsonFile();
 
     res.json({
@@ -118,33 +117,53 @@ app.post("/students", (req, res) => {
 app.delete("/students/:Id", (req, res) => {
     let nameOfThePersonToDelete = req.params.Id;
     studentDataCollection.forEach((element, index) => {
-        if(studentDataCollection[index]["studentId"] === nameOfThePersonToDelete){
+        if(element["studentId"] === nameOfThePersonToDelete){
             studentDataCollection.splice(index, 1);
+            let filePath = __dirname+'/uploads/'+element['studentImage'];
+            deteteFile(filePath);
         }
     });
     console.table(studentDataCollection);
-    res.send(studentDataCollection);
+    res.json({
+        message: 'Data has deleted',
+        StudentId: nameOfThePersonToDelete
+    });
 });
 
+function deteteFile(filePath){
+    fs.rm(filePath, (err) => {
+        if(err){
+            console.error(err.message);
+            return;
+        }
+        console.log("File deleted successfully");
+    });
+}
 
 app.put('/students', (req, res) => {
     let updateDate = req.body;
     // console.log(updateDate);
     studentDataCollection.forEach((element, index) => {
-        if(studentDataCollection[index]['studentId'] === updateDate['studentId']){
-            studentDataCollection[index]['studentFname'] = updateDate['studentFname'];
-            studentDataCollection[index]['studentLname'] = updateDate['studentLname'];
-            studentDataCollection[index]['studentDateOfBirth'] = updateDate['studentDateOfBirth'];
-            studentDataCollection[index]['studentId'] = generateId();
+        if(element['studentId'] === updateDate['studentId']){
+            element['studentFname'] = capitalizeFirstLetter(updateDate['studentFname']);
+            element['studentLname'] = capitalizeFirstLetter(updateDate['studentLname']);
+            element['studentDateOfBirth'] = updateDate['studentDateOfBirth'];
+            element['studentId'] = generateId();
+            dateCorrection(updateDate['studentDateOfBirth']);
         }
     });
     
     console.table(studentDataCollection);
     res.json({
-        message: "data has been update"
+        message: "data has been updated"
     });
 });
 
+function dateCorrection(date){
+    // let newDate = date[0]+''+date[1]+'-'+date[2]+''+date[3]+'-'+date.slice(4);
+    let checking = date.split('-');
+    console.log(checking);
+}
 
 app.listen(PORT, () => {
     console.log(`Server started on port http://localhost:${PORT}`);
@@ -155,7 +174,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-
+/*-------------------------------------------------------------------------------------------------------------------------------*/
 function generateId(){
     const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     var result = "";
@@ -165,13 +184,13 @@ function generateId(){
     return result;
 }
 
-
+/*--------------------------------------------------------------------------------------------------------------------------------------*/
 function readJsonFile(){
     try{
-        console.log('this data from json file');
+        // console.log('this data from json file');
         const readFile = fs.readFileSync('node-server/student.json', 'utf-8');
         const fileData = JSON.parse(readFile);
-        console.log(fileData)
+        console.log(fileData);
         return fileData;
     }
     catch{

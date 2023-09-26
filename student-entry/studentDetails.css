@@ -14,7 +14,8 @@
 .studentClass{
     font-family: sans-serif;
     font-size: 20px;
-    background-color: gray;
+    /* background-color: gray; */
+    background-color: #28587B;
     width: 40%;
     height: 500px;
     display: inline-block;
@@ -180,7 +181,160 @@
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
-@media (max-width: 576px){
+@media (min-width: 320px) and (max-width: 480px){
+    .studentClass{
+        margin-top: 3%;
+        width: 97%;
+        height: 460px;
+    }
+
+    .image{
+        width: 155px;
+        height: 155px;
+    }
+
+    .labelFname{
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .inputFname{
+        width: 187px;
+        margin-left: 23px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelLname{
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .inputLname{
+        width: 187px;
+        margin-left: 23px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelDob{
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .inputDob{
+        width: 187px;
+        margin-left: 11px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelGender{
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .inputGender{
+        width: 187px;
+        margin-left: 43px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .labelId{
+        font-weight: bold;
+        font-size: 13px;
+    }
+    
+    .inputId{
+        width: 187px;
+        margin-left: 23px;
+        font-size: 16px;
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+    
+    .buttonClass{
+        margin-top: 28px; 
+        margin-bottom: 7px;
+    }
+
+    .edit{
+        width: 60px;
+        height: 37px;
+        font-weight: bold;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+    
+    /* .edit:hover{
+        background-image: url('../images/edit.gif');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-size: 32px;
+        padding-left: 29px;
+        background-position-x: 8px;
+    } */
+    
+    .delete{
+        width: 60px;
+        height: 37px;
+        font-weight: bold;
+        font-size: 13px;
+        border-radius: 8px;
+        cursor: pointer; 
+    }
+    
+    /* .delete:hover{
+        background-image: url('../images/trash-bin.gif');
+        background-repeat: no-repeat;
+        background-size: 32px;
+        padding-left: 29px;
+        background-position-x: 5px;
+    } */
+    
+    .update{
+        width: 60px;
+        height: 37px;
+        font-weight: bold;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+    
+    /* .update:hover{
+        background-image: url('../images/update.gif');
+        background-repeat: no-repeat;
+        background-size: 29px;
+        padding-left: 26px;
+        background-position-x: 2px;
+    } */
+
+    .view{
+        width: 60px;
+        height: 37px;
+        font-weight: bold;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------*/
+@media (min-width: 480px) and (max-width: 576px){
     .studentClass{
         margin-top: 3%;
         width: 97%;

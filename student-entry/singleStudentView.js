@@ -48,7 +48,7 @@ function createElement(fname, lname, dob, gender, image, id){
             
             <div class="outputClass">
                 <label class="labelDob">Date of Birth: </label>
-                <input type="text" value="${dob}" class="inputDob" readonly>
+                <input type="date" value="${dob}" class="inputDob" readonly>
             </div>
 
             <div class="outputClass">

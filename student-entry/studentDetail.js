@@ -51,7 +51,7 @@ function createElement(fname, lname, dob, gender, image, id){
             
             <div class="outputClass">
                 <label class="labelDob">Date of Birth: </label>
-                <input type="text" value="${dob}" class="inputDob" readonly>
+                <input type="date" value="${dob}" class="inputDob" readonly>
             </div>
 
             <div class="outputClass">
@@ -80,19 +80,19 @@ function createElement(fname, lname, dob, gender, image, id){
 function findStudentCard(e, userId){
     window.location.href = '/student-entry/singleStudentView.html';
     localStorage.setItem("studentId", userId);
-    // console.log(userId);
+    console.log(userId);
 }
 
 let indexValue = 0;
 
 function editStudent(userId, element){
-    
+    // console.log('call from edit student',userId, element);
     let inputFname = document.querySelectorAll(".inputFname");
     let inputLname = document.querySelectorAll(".inputLname");
     let inputDob = document.querySelectorAll(".inputDob");
     let updateButton = document.querySelectorAll('.update');
     
-    const apiUrl = `http://localhost:2000/students/${userId}`;
+    const apiUrl = "http://localhost:2000/students";
     const apiOption = {
         method: "GET"
     }
@@ -100,15 +100,19 @@ function editStudent(userId, element){
     fetch(apiUrl, apiOption).then(res => {
         return res.json();
     }).then(data => {
-        console.log(data);
-        let index = data['indexValue'];
-        indexValue = index;
-        console.log(indexValue);
-        inputFname[index].readOnly = false;
-        inputFname[index].focus();
-        inputLname[index].readOnly = false;
-        inputDob[index].readOnly = false;
-        updateButton[index].disabled = false;
+        
+        data.forEach((element, index) => {
+            if(data[index]["studentId"] === userId){
+                indexValue = index;
+                // console.log(indexValue);
+                inputFname[index].readOnly = false;
+                inputFname[index].focus();
+                inputLname[index].readOnly = false;
+                inputDob[index].readOnly = false;
+                updateButton[index].disabled = false;
+            }
+        });
+
     }).catch(err => {
         console.log(err);
     });
@@ -144,15 +148,23 @@ function updateStudent(userid, element){
     }).then(data => {
         console.log(data);
         updateButton[indexValue].disabled = true;
+        inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
+        inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
         location.href = location.href;
     }).catch(err => {
         console.log(err);
     });
 }
+//0123456789
+//01-12-2000
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 
 function deleteStudent(userId, element){
-    console.log(userId);
+    // console.log(userId);
     const apiUrl = `http://localhost:2000/students/${userId}`;
     const requestOptions = {
         method: 'DELETE'
@@ -175,6 +187,5 @@ function deleteStudent(userId, element){
 // put /students/1546 - update student details for student with id of 1546
 // patch /students/1987 - partial update to student with id of 1987 (only fname and lname are updated)
 // detete /students/1897 - deletes student with id 1891
-
 
 // rest api convention/ swager
