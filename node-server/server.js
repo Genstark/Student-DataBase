@@ -74,43 +74,51 @@ const upload = multer({storage: storage});
 
 
 app.post('/students/image', upload.single('file'), (req, res) => {
-    console.log('image is upload');
+    try{
+        let recievingStudentImage = req.file.path;
+        let arrayLastElement = studentDataCollection.length - 1;
+        let imageExtension = path.extname(recievingStudentImage);
+        studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
+        // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
 
-    let recievingStudentImage = req.file.path;
-    let arrayLastElement = studentDataCollection.length - 1;
-    let imageExtension = path.extname(recievingStudentImage);
-    studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
-    // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
+        console.table(studentDataCollection);
+        console.log('image is uplaod');
+        // writeJsonFile(studentDataCollection);
+        // readJsonFile();
 
-    console.table(studentDataCollection);
-    
-    // writeJsonFile(studentDataCollection);
-    // readJsonFile();
-
-    res.json({
-        message: 'file is upload',
-    });
+        res.json({
+            message: 'file is upload',
+        });
+    }
+    catch(err){
+        console.error("Error in uploading the image");
+    }
 });
 
 
 app.post("/students", (req, res) => {
-    let recievingStudentData = req.body;
-    // console.log(recievingStudentData);
-    let studentFname = capitalizeFirstLetter(recievingStudentData["studentFname"]);
-    let studentLname = capitalizeFirstLetter(recievingStudentData["studentLname"]);
+    try{
+        let recievingStudentData = req.body;
+        // console.log(recievingStudentData);
+        let studentFname = capitalizeFirstLetter(recievingStudentData["studentFname"]);
+        let studentLname = capitalizeFirstLetter(recievingStudentData["studentLname"]);
 
-    recievingStudentData["studentFname"] = studentFname;
-    recievingStudentData["studentLname"] = studentLname;
-    recievingStudentData['studentId'] = generateId();
+        recievingStudentData["studentFname"] = studentFname;
+        recievingStudentData["studentLname"] = studentLname;
+        recievingStudentData['studentId'] = generateId();
 
-    studentDataCollection.push(recievingStudentData);
+        studentDataCollection.push(recievingStudentData);
 
-    console.table(studentDataCollection);
+        console.table(studentDataCollection);
 
-    res.json({
-        message: 'ok',
-        data: req.body
-    });
+        res.json({
+            message: 'ok',
+            data: req.body
+        });
+    }
+    catch(err){
+        console.error(`Error occured while adding new Student`);
+    }
 });
 
 
@@ -119,7 +127,8 @@ app.delete("/students/:Id", (req, res) => {
     studentDataCollection.forEach((element, index) => {
         if(element["studentId"] === nameOfThePersonToDelete){
             studentDataCollection.splice(index, 1);
-            let filePath = __dirname+'/uploads/'+element['studentImage'];
+            // let filePath = __dirname+'/uploads/'+element['studentImage'];
+            let filePath = path.join(__dirname,'uploads',element['studentImage']);
             deteteFile(filePath);
         }
     });
@@ -149,7 +158,6 @@ app.put('/students', (req, res) => {
             element['studentLname'] = capitalizeFirstLetter(updateDate['studentLname']);
             element['studentDateOfBirth'] = updateDate['studentDateOfBirth'];
             element['studentId'] = generateId();
-            dateCorrection(updateDate['studentDateOfBirth']);
         }
     });
     
@@ -158,12 +166,6 @@ app.put('/students', (req, res) => {
         message: "data has been updated"
     });
 });
-
-function dateCorrection(date){
-    // let newDate = date[0]+''+date[1]+'-'+date[2]+''+date[3]+'-'+date.slice(4);
-    let checking = date.split('-');
-    console.log(checking);
-}
 
 app.listen(PORT, () => {
     console.log(`Server started on port http://localhost:${PORT}`);

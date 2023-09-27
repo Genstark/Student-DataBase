@@ -148,8 +148,8 @@ function updateStudent(userid, element){
     }).then(data => {
         console.log(data);
         updateButton[indexValue].disabled = true;
-        inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
-        inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
+        inputFname[indexValue].value = inputFname[indexValue].value;
+        inputLname[indexValue].value = inputLname[indexValue].value;
         location.href = location.href;
     }).catch(err => {
         console.log(err);
