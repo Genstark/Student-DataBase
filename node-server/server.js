@@ -36,16 +36,6 @@ app.get('/students/:id', (req, res) => {
 
     const userId = req.params.id;
 
-    // studentDataCollection.forEach((element, index) => {
-    //     if(studentDataCollection[index]['studentId'] === userId){
-    //         // res.send(studentDataCollection[index]);
-    //         res.json({
-    //             message: 'single student data',
-    //             studentId: userId,
-    //         })
-    //     }
-    // });
-
     for(let index=0; index < studentDataCollection.length; index++){
         if(studentDataCollection[index]['studentId'] === userId){
             res.json({
@@ -58,6 +48,7 @@ app.get('/students/:id', (req, res) => {
     }
 });
 
+let ID;
 
 const storage = multer.diskStorage({
     destination:(req , file , cb) => {
@@ -65,50 +56,55 @@ const storage = multer.diskStorage({
     },
     filename:(req, file, cb) => {
         const fileExtension = path.extname(file.originalname);
-        let arrayLastElement = studentDataCollection.length - 1;
-        cb(null, studentDataCollection[arrayLastElement]['studentId']+fileExtension);
+        const studentid = generateId();
+        // req.studentid = studentid;
+        ID = studentid;
+        cb(null, ID+fileExtension);
     }
 });
 
 const upload = multer({storage: storage});
 
 
-app.post('/students/image', upload.single('file'), (req, res) => {
-    try{
-        let recievingStudentImage = req.file.path;
-        let arrayLastElement = studentDataCollection.length - 1;
-        let imageExtension = path.extname(recievingStudentImage);
-        studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
-        // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
+// app.post('/students/image', upload.single('file'), (req, res) => {
+//     try{
+//         let recievingStudentImage = req.file.path;
+//         console.log(req.body);
 
-        console.table(studentDataCollection);
-        console.log('image is uplaod');
-        // writeJsonFile(studentDataCollection);
-        // readJsonFile();
+//         let arrayLastElement = studentDataCollection.length - 1;
 
-        res.json({
-            message: 'file is upload',
-        });
-    }
-    catch(err){
-        console.error("Error in uploading the image");
-    }
-});
+//         let imageExtension = path.extname(recievingStudentImage);
+        
+//         studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
+//         // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
+
+//         console.table(studentDataCollection);
+//         console.log('image is uplaod');
+//         // writeJsonFile();
+//         // readJsonFile();
+
+//         res.json({
+//             message: 'file is upload',
+//         });
+//     }
+//     catch(err){
+//         console.error("Error in uploading the image");
+//     }
+// });
 
 
-app.post("/students", (req, res) => {
+app.post("/students", upload.single('file'), (req, res) => {
     try{
         let recievingStudentData = req.body;
-        // console.log(recievingStudentData);
-        let studentFname = capitalizeFirstLetter(recievingStudentData["studentFname"]);
-        let studentLname = capitalizeFirstLetter(recievingStudentData["studentLname"]);
+        // console.log(req.body);
 
-        recievingStudentData["studentFname"] = studentFname;
-        recievingStudentData["studentLname"] = studentLname;
-        recievingStudentData['studentId'] = generateId();
+        recievingStudentData['studentFname'] = capitalizeFirstLetter(recievingStudentData["studentFname"]);
+        recievingStudentData['studentLname'] = capitalizeFirstLetter(recievingStudentData["studentLname"]);
+        recievingStudentData['studentId'] = ID;
+        recievingStudentData['studentImage'] = recievingStudentData['studentId'] + path.extname(recievingStudentData['studentImage']);
 
         studentDataCollection.push(recievingStudentData);
-
+        console.log(req.studentid);
         console.table(studentDataCollection);
 
         res.json({
@@ -149,6 +145,7 @@ function deteteFile(filePath){
     });
 }
 
+
 app.put('/students', (req, res) => {
     let updateDate = req.body;
     // console.log(updateDate);
@@ -186,10 +183,9 @@ function generateId(){
     return result;
 }
 
-/*--------------------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------------------*/
 function readJsonFile(){
     try{
-        // console.log('this data from json file');
         const readFile = fs.readFileSync('node-server/student.json', 'utf-8');
         const fileData = JSON.parse(readFile);
         console.log(fileData);
@@ -202,9 +198,7 @@ function readJsonFile(){
 
 function writeJsonFile(){
     try{
-        const jsonFileData = readJsonFile();
-        studentDataCollection.push(jsonFileData);
-        const writeFile = fs.writeFileSync('node-server/student.json', JSON.stringify(studentDataCollection), 'utf-8');
+        const writeFile = fs.writeFileSync('node-server/student.json', JSON.stringify([element]), 'utf-8');
         console.log(writeFile);
     }
     catch{

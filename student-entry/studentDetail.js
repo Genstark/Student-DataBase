@@ -104,7 +104,6 @@ function editStudent(userId, element){
         data.forEach((element, index) => {
             if(data[index]["studentId"] === userId){
                 indexValue = index;
-                // console.log(indexValue);
                 inputFname[index].readOnly = false;
                 inputFname[index].focus();
                 inputLname[index].readOnly = false;
@@ -155,8 +154,6 @@ function updateStudent(userid, element){
         console.log(err);
     });
 }
-//0123456789
-//01-12-2000
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

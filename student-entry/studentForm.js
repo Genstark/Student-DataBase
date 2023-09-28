@@ -5,13 +5,10 @@ function studentData(){
     const studentFname = document.getElementById("fname");
     const studentLname = document.getElementById("lname");
     const studentDate = document.getElementById("date");
-    // const studentMonth = document.getElementById("month");
-    // const studentYear = document.getElementById("year");
     const studentGender = document.getElementById("gender");
     const studentImage = document.getElementById('studentimage');
 
     const yearCheck = studentDate.value.split('-');
-    console.log(yearCheck);
 
     const imageExtension = studentImage.value.split('.').pop();
 
@@ -32,25 +29,6 @@ function studentData(){
         error[1].innerHTML = "Please enter your last name";
         return;
     }
-    // else if(parseInt(studentDate.value) <= 0 || parseInt(studentDate.value) > 31 || studentDate.value === ""){
-        // studentLname.style.borderColor = "gray"; // last name input box become gray when input will be right
-        // error[1].style.display = "none"; //error message will remove
-
-    //     studentDate.style.borderColor = "red";
-    //     error[2].style.display = "block";
-    //     error[2].style.fontWeight = "bold";
-    //     error[2].innerHTML = "Invalid Date";
-    //     return;
-    // }
-    // else if(parseInt(studentMonth.value) <= 0 || parseInt(studentMonth.value) > 12 || studentMonth.value === ""){
-    //     studentDate.style.borderColor = "gray"; //student date input box become gray when input date is valid
-
-    //     studentMonth.style.borderColor = "red";
-    //     error[2].style.display = "block";
-    //     error[2].style.fontWeight = "bold";
-    //     error[2].innerHTML = "Invalid Month";
-    //     return;
-    // }
     else if(parseInt(yearCheck[0]) < 1980 || studentDate.value === ""){
         studentLname.style.borderColor = "gray"; // last name input box become gray when input will be right
         error[1].style.display = "none"; //error message will remove
@@ -86,60 +64,59 @@ function studentData(){
 }
 
 
-//get request function
-function studentPhoto(){
-    const file = document.getElementById("imageFile");
-    const fileName = file.value.split('\\').pop();
-    const fileExtension = file.value.split('.').pop();
-    console.log(file.value);
-    console.log(fileName);
-    console.log(fileExtension);
-}
-
-
 const submitData = document.getElementById("submitdata");
 
 submitData.addEventListener('click', () => {
     console.log('post');
     postRequest();
-    console.log('image');
-    imagePost();
 });
 
-async function imagePost(){
-    const studentImage = document.getElementById("studentimage");
+// async function imagePost(){
+//     const studentImage = document.getElementById("studentimage");
 
-    const formData = new FormData();
-    formData.append('file', studentImage.files[0]);
+//     const formData = new FormData();
+//     formData.append('file', studentImage.files[0]);
 
-    const apiUrl = 'http://localhost:2000/students/image';
-    const apiOption = {
-        method: 'POST',
-        body: formData
-    }
+//     const apiUrl = 'http://localhost:2000/students/image';
+//     const apiOption = {
+//         method: 'POST',
+//         body: formData
+//     }
 
-    await fetch(apiUrl, apiOption).then(res => {
-        return res.json();
-    }).then(data => {
-        console.log(data);
-    }).catch(err => {
-        console.log(err);
-    });
-}
+//     await fetch(apiUrl, apiOption).then(res => {
+//         return res.json();
+//     }).then(data => {
+//         console.log(data);
+//     }).catch(err => {
+//         console.log(err);
+//     });
+// }
 
 
 //post request function
 async function postRequest() {
     try{
-        confirmRequest.push(studentData());
+        // confirmRequest.push(studentData());
+
+        const studentImage = document.getElementById('studentimage');
+
+        const formData = new FormData();
+        formData.append('studentFname', studentData().studentFname);
+        formData.append('studentLname', studentData().studentLname);
+        formData.append('studentDateOfBirth', studentData().studentDateOfBirth);
+        formData.append('studentGender', studentData().studentGender);
+        formData.append('studentImage', studentData().studentImage);
+        formData.append('file', studentImage.files[0]);
+
         
         const apiUrl = "http://localhost:2000/students";
         const apiOption = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(studentData())
+            // headers: {
+            //     'Content-Type': 'application/json'
+            //     // 'Content-Type': 'multipart/form-data'
+            // },
+            body: formData
         }
 
         // localStorage.setItem("item", JSON.stringify(confirmRequest));
@@ -162,13 +139,7 @@ async function postRequest() {
 }
 
 
-//when user submit the data
-// function dataSendToServer(){
-//     postRequest();
-// }
-
 function dataRecievetoServer(){
-    // getRequest();
     window.location.href = '/student-entry/studentDetail.html';
 }
 
