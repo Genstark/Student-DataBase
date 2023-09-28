@@ -104,7 +104,7 @@ app.post("/students", upload.single('file'), (req, res) => {
         recievingStudentData['studentImage'] = recievingStudentData['studentId'] + path.extname(recievingStudentData['studentImage']);
 
         studentDataCollection.push(recievingStudentData);
-        console.log(req.studentid);
+        // console.log(req.studentid);
         console.table(studentDataCollection);
 
         res.json({
