@@ -66,33 +66,6 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 
-// app.post('/students/image', upload.single('file'), (req, res) => {
-//     try{
-//         let recievingStudentImage = req.file.path;
-//         console.log(req.body);
-
-//         let arrayLastElement = studentDataCollection.length - 1;
-
-//         let imageExtension = path.extname(recievingStudentImage);
-        
-//         studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
-//         // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
-
-//         console.table(studentDataCollection);
-//         console.log('image is uplaod');
-//         // writeJsonFile();
-//         // readJsonFile();
-
-//         res.json({
-//             message: 'file is upload',
-//         });
-//     }
-//     catch(err){
-//         console.error("Error in uploading the image");
-//     }
-// });
-
-
 app.post("/students", upload.single('file'), (req, res) => {
     try{
         let recievingStudentData = req.body;

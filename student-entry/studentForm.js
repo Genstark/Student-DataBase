@@ -67,30 +67,8 @@ function studentData(){
 const submitData = document.getElementById("submitdata");
 
 submitData.addEventListener('click', () => {
-    console.log('post');
     postRequest();
 });
-
-// async function imagePost(){
-//     const studentImage = document.getElementById("studentimage");
-
-//     const formData = new FormData();
-//     formData.append('file', studentImage.files[0]);
-
-//     const apiUrl = 'http://localhost:2000/students/image';
-//     const apiOption = {
-//         method: 'POST',
-//         body: formData
-//     }
-
-//     await fetch(apiUrl, apiOption).then(res => {
-//         return res.json();
-//     }).then(data => {
-//         console.log(data);
-//     }).catch(err => {
-//         console.log(err);
-//     });
-// }
 
 
 //post request function
