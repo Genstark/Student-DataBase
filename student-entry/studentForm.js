@@ -12,6 +12,9 @@ function studentData(){
 
     const imageExtension = studentImage.value.split('.').pop();
 
+    const currentDateAndTime = new Date();
+    const currentDate = currentDateAndTime.toISOString().slice(0, 10);
+
     if(studentFname.value.trim() === ""){
         studentFname.style.borderColor = "red";
         error[0].style.display = "block";
@@ -29,14 +32,14 @@ function studentData(){
         error[1].innerHTML = "Please enter your last name";
         return;
     }
-    else if(parseInt(yearCheck[0]) < 1980 || studentDate.value === ""){
+    else if(parseInt(yearCheck[0]) < 1980 || studentDate.value > currentDate || studentDate.value === ""){
         studentLname.style.borderColor = "gray"; // last name input box become gray when input will be right
         error[1].style.display = "none"; //error message will remove
 
         studentDate.style.borderColor = "red";
         error[2].style.display = "block";
         error[2].style.fontWeight = "bold";
-        error[2].innerHTML = "Invalid Year";
+        error[2].innerHTML = "Invalid Date";
         return;
     }
     else if(imageExtension !== 'png' && imageExtension !== 'jpg'){
