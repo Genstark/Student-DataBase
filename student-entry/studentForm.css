@@ -3,23 +3,30 @@
     font-size: 21px;
     text-decoration: 5px solid underline;
     font-family: system-ui;
-    color: gray;
+    /* color: gray; */
+    color: #0f5099;
 }
 
 .container{
     /* text-align: center; */
     box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .mainclass{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    background-color: darkgrey;
+    position: relative;
+    /* top: 50%; */
+    /* left: 50%; */
+    /* margin-right: -50%; */
+    /* transform: translate(-50%, -50%); */
+    /* background-color: darkgrey; */
+    background-color: #95A3B3;
     border-radius: 5px;
     padding: 16px;
+    margin-top: 10px;
+    width: 27%;
 }
 
 .inputclass{
@@ -159,7 +166,14 @@
         font-size: 17px;
         text-decoration: 5px solid underline;
         font-family: system-ui;
-        color: gray;
+        /* color: gray; */
+        color: #0f5099;
+    }
+
+    .mainclass{
+        background-color:#95A3B3;
+        width: 80%;
+        margin-top: 10px;
     }
 
     .date{
@@ -172,46 +186,31 @@
         font-size: 18px;
     }
     
-    .month{
-        width: 28%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .year{
-        width: 44%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
 }
 
 /*--------------------------------------------------------------------------------------*/
 @media (min-width:480px) and (max-width: 576px){
     .mainclass{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%);
-        background-color: darkgrey;
+        position: relative;
+        /* top: 50%; */
+        /* left: 50%; */
+        /* margin-right: -50%; */
+        /* transform: translate(-50%, -50%); */
+        /* background-color: darkgrey; */
+        background-color: #95A3B3;
         border-radius: 5px;
         padding: 16px;
+        width: 70%;
+        margin-top: 10px;
     }
 
     .heading{
         text-align: center;
-        font-size: 18px;
+        font-size: 20px;
         text-decoration: 5px solid underline;
         font-family: system-ui;
-        color: gray;
+        /* color: gray; */
+        color: #0f5099;
     }
 
     .date{
@@ -220,26 +219,6 @@
         box-sizing: border-box;
         padding-left: 8px;
         height: 35px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .month{
-        width: 28%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .year{
-        width: 44%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
         border-radius: 8px;
         font-size: 18px;
     }
@@ -248,22 +227,26 @@
 /*--------------------------------------------------------------------------------------*/
 @media (min-width:577px) and (max-width: 786px){
     .mainclass{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%);
-        background-color: darkgrey;
+        position: relative;
+        /* top: 50%; */
+        /* left: 50%; */
+        /* margin-right: -50%; */
+        /* transform: translate(-50%, -50%); */
+        /* background-color: darkgrey; */
+        background-color: #95A3B3;
         border-radius: 5px;
         padding: 16px;
+        width: 65%;
+        margin-top: 10px;
     }
     
     .heading{
         text-align: center;
-        font-size: 18px;
+        font-size: 22px;
         text-decoration: 5px solid underline;
         font-family: system-ui;
-        color: gray;
+        /* color: gray; */
+        color: #0f5099;
     }
 
     .date{
@@ -272,26 +255,6 @@
         box-sizing: border-box;
         padding-left: 8px;
         height: 35px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .month{
-        width: 28%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .year{
-        width: 44%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
         border-radius: 8px;
         font-size: 18px;
     }
@@ -300,14 +263,17 @@
 /*--------------------------------------------------------------------------------------*/
 @media (min-width:787px) and (max-width: 992px){
     .mainclass{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%);
-        background-color: darkgrey;
+        position: relative;
+        /* top: 50%; */
+        /* left: 50%; */
+        /* margin-right: -50%; */
+        /* transform: translate(-50%, -50%); */
+        /* background-color: darkgrey; */
+        background-color: #95A3B3;
         border-radius: 5px;
         padding: 16px;
+        width: 60%;
+        margin-top: 10px;
     }
     
     .heading{
@@ -315,7 +281,8 @@
         font-size: 18px;
         text-decoration: 5px solid underline;
         font-family: system-ui;
-        color: gray;
+        /* color: gray; */
+        color: #0f5099;
     }
 
     .date{
@@ -327,24 +294,4 @@
         border-radius: 8px;
         font-size: 18px;
     }
-    
-    .month{
-        width: 28%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-    
-    .year{
-        width: 44%;
-        border-width: 2px;
-        box-sizing: border-box;
-        padding-left: 8px;
-        height: 26px;
-        border-radius: 8px;
-        font-size: 18px;
-    }
-} 
+}

@@ -12,9 +12,6 @@ function studentData(){
 
     const imageExtension = studentImage.value.split('.').pop();
 
-    const currentDateAndTime = new Date();
-    const currentDate = currentDateAndTime.toISOString().slice(0, 10);
-
     if(studentFname.value.trim() === ""){
         studentFname.style.borderColor = "red";
         error[0].style.display = "block";
@@ -32,14 +29,14 @@ function studentData(){
         error[1].innerHTML = "Please enter your last name";
         return;
     }
-    else if(parseInt(yearCheck[0]) < 1980 || studentDate.value > currentDate || studentDate.value === ""){
+    else if(parseInt(yearCheck[0]) < 1980 || studentDate.value === ""){
         studentLname.style.borderColor = "gray"; // last name input box become gray when input will be right
         error[1].style.display = "none"; //error message will remove
 
         studentDate.style.borderColor = "red";
         error[2].style.display = "block";
         error[2].style.fontWeight = "bold";
-        error[2].innerHTML = "Invalid Date";
+        error[2].innerHTML = "Invalid Year";
         return;
     }
     else if(imageExtension !== 'png' && imageExtension !== 'jpg'){
@@ -70,8 +67,30 @@ function studentData(){
 const submitData = document.getElementById("submitdata");
 
 submitData.addEventListener('click', () => {
+    console.log('post');
     postRequest();
 });
+
+// async function imagePost(){
+//     const studentImage = document.getElementById("studentimage");
+
+//     const formData = new FormData();
+//     formData.append('file', studentImage.files[0]);
+
+//     const apiUrl = 'http://localhost:2000/students/image';
+//     const apiOption = {
+//         method: 'POST',
+//         body: formData
+//     }
+
+//     await fetch(apiUrl, apiOption).then(res => {
+//         return res.json();
+//     }).then(data => {
+//         console.log(data);
+//     }).catch(err => {
+//         console.log(err);
+//     });
+// }
 
 
 //post request function
