@@ -4,6 +4,7 @@ const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const { MongoClient, ObjectId } = require('mongodb');
 
 
 app.use(express.json());
@@ -28,9 +29,49 @@ const studentDataCollection = [];
 
 const PORT = 2000;
 
+
+async function gettingAllData(){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
+
+        await collection.find().toArray();
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
+
 app.get("/students", (req, res) => {
     res.send(studentDataCollection);
 });
+
+async function gettingDataofSingleStudent(userId){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
+
+        await collection.findOne({ _id : userId }).toArray();
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
 
 app.get('/students/:id', (req, res) => {
 
@@ -46,62 +87,78 @@ app.get('/students/:id', (req, res) => {
             break;
         }
     }
+
+    gettingDataofSingleStudent(userId);
 });
 
 let ID;
 
-const storage = multer.diskStorage({
-    destination:(req , file , cb) => {
-        cb(null, __dirname+'/uploads');
-    },
-    filename:(req, file, cb) => {
-        const fileExtension = path.extname(file.originalname);
-        const studentid = generateId();
-        // req.studentid = studentid;
-        ID = studentid;
-        cb(null, ID+fileExtension);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination:(req , file , cb) => {
+//         cb(null, __dirname+'/uploads');
+//     },
+//     filename:(req, file, cb) => {
+//         const fileExtension = path.extname(file.originalname);
+//         const studentid = generateId();
+//         // req.studentid = studentid;
+//         ID = studentid;
+//         // cb(null, ID+fileExtension);
+//         cb(null, file.originalname);
+//     }
+// });
+
+const storage = multer.memoryStorage();
+
 
 const upload = multer({storage: storage});
 
+async function addDataMongodb(data){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-// app.post('/students/image', upload.single('file'), (req, res) => {
-//     try{
-//         let recievingStudentImage = req.file.path;
-//         console.log(req.body);
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
 
-//         let arrayLastElement = studentDataCollection.length - 1;
+        const maindata = {
+            _id : data['studentId'],
+            FName : data['studentFname'],
+            LName : data['studentLname'],
+            DOB : data['studentDateOfBirth'],
+            Gender : data['studentGender']
+        }
 
-//         let imageExtension = path.extname(recievingStudentImage);
-        
-//         studentDataCollection[arrayLastElement]['studentImage'] = studentDataCollection[arrayLastElement]['studentId']+imageExtension;
-//         // studentDataCollection[arrayLastElement]['imagePath'] = recievingStudentImage;
-
-//         console.table(studentDataCollection);
-//         console.log('image is uplaod');
-//         // writeJsonFile();
-//         // readJsonFile();
-
-//         res.json({
-//             message: 'file is upload',
-//         });
-//     }
-//     catch(err){
-//         console.error("Error in uploading the image");
-//     }
-// });
+        await collection.insertOne(maindata, { writeConcern: { w: 'majority' } });
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
 
 
 app.post("/students", upload.single('file'), (req, res) => {
     try{
         let recievingStudentData = req.body;
-        // console.log(req.body);
+        console.log(req.body);
+
+        const fileData = req.file.buffer;
+
+        const fileDocument = {
+            filename: req.file.originalname,
+            data: fileData
+        }
 
         recievingStudentData['studentFname'] = capitalizeFirstLetter(recievingStudentData["studentFname"]);
         recievingStudentData['studentLname'] = capitalizeFirstLetter(recievingStudentData["studentLname"]);
-        recievingStudentData['studentId'] = ID;
-        recievingStudentData['studentImage'] = recievingStudentData['studentId'] + path.extname(recievingStudentData['studentImage']);
+        recievingStudentData['studentId'] = generateId();
+        // recievingStudentData['studentImage'] = recievingStudentData['studentId'] + path.extname(recievingStudentData['studentImage']);
+        recievingStudentData['studentImage'] = req.file.filename;
+
+        addDataMongodb(recievingStudentData).catch(console.error);
 
         studentDataCollection.push(recievingStudentData);
         // console.log(req.studentid);
@@ -118,16 +175,39 @@ app.post("/students", upload.single('file'), (req, res) => {
 });
 
 
+
+async function deleteDataMongodb(userId){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
+        await collection.deleteOne({ _id : userId }, { writeConcern: { w: 'majority' } });
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
 app.delete("/students/:Id", (req, res) => {
     let nameOfThePersonToDelete = req.params.Id;
-    studentDataCollection.forEach((element, index) => {
-        if(element["studentId"] === nameOfThePersonToDelete){
-            studentDataCollection.splice(index, 1);
-            // let filePath = __dirname+'/uploads/'+element['studentImage'];
-            let filePath = path.join(__dirname,'uploads',element['studentImage']);
-            deteteFile(filePath);
-        }
-    });
+
+    // studentDataCollection.forEach((element, index) => {
+    //     if(element["studentId"] === nameOfThePersonToDelete){
+    //         studentDataCollection.splice(index, 1);
+    //         // let filePath = __dirname+'/uploads/'+element['studentImage'];
+    //         // let filePath = path.join(__dirname,'uploads',element['studentImage']);
+    //         // deteteFile(filePath);
+    //     }
+    // });
+
+    deleteDataMongodb(nameOfThePersonToDelete);
+
     console.table(studentDataCollection);
     res.json({
         message: 'Data has deleted',
@@ -146,9 +226,35 @@ function deteteFile(filePath){
 }
 
 
+async function updateDataMongodb(studentdata){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
+
+        const data = {
+            $set : {
+                FName : capitalizeFirstLetter(studentdata['studentFname']),
+                LName : capitalizeFirstLetter(studentdata['studentLname']),
+                DOB : studentdata['studentDateOfBirth']
+            }
+        }
+        await collection.findOneAndUpdate({ _id : studentdata['studentId'] }, data, { returnOriginal : false });
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
 app.put('/students', (req, res) => {
     let updateDate = req.body;
-    // console.log(updateDate);
+    console.log(updateDate);
     studentDataCollection.forEach((element, index) => {
         if(element['studentId'] === updateDate['studentId']){
             element['studentFname'] = capitalizeFirstLetter(updateDate['studentFname']);
@@ -157,6 +263,8 @@ app.put('/students', (req, res) => {
             element['studentId'] = generateId();
         }
     });
+
+    updateDataMongodb(updateDate);
     
     console.table(studentDataCollection);
     res.json({
@@ -177,7 +285,7 @@ function capitalizeFirstLetter(string) {
 function generateId(){
     const character = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     var result = "";
-    for(let i=0; i <= 12; i++){
+    for(let i=0; i < 12; i++){
         result += character[Math.floor(Math.random()*character.length)];
     }
     return result;
