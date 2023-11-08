@@ -11,22 +11,22 @@ function gettingData(){
         return res.json();
     }).then((data) => {
         console.log(data);
-        renderElement(data);
+        renderElement(data['Data']);
     }).catch((err) => {
-        console.log("server is not working", err);
+        console.log("server is not workin\n", err);
     });
 }
 
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
 
 function renderElement(data){
     for(let i=0; i < data.length; i++){
         createElement(capitalizeFirstLetter(data[i]["studentFname"]), capitalizeFirstLetter(data[i]["studentLname"]), 
-            capitalizeFirstLetter(data[i]["studentDateOfBirth"]), capitalizeFirstLetter(data[i]["studentGender"]), data[i]['studentImage'], data[i]["studentId"]);
+            capitalizeFirstLetter(data[i]["studentDateOfBirth"]), capitalizeFirstLetter(data[i]["studentGender"]), data[i]['studentImage']['data'], data[i]["_id"]);
     }
 }
 
@@ -36,11 +36,11 @@ function createElement(fname, lname, dob, gender, image, id){
     mainClass.innerHTML += `
         <div class="studentClass" target="_blank">
             <div class="studentImage" id="studentImage">
-                <img src="../node-server/uploads/${image}" class="image">
+                <img src="data:image/png image/jpg;base64,${image}" class="image">
             </div>
 
             <div class="outputClass">
-                <label class="labelFname">First Name: </label>
+                <label class="labelFname">First Name: </label> 
                 <input type="text" value="${fname}" class="inputFname" readonly>
             </div>
             
@@ -69,7 +69,7 @@ function createElement(fname, lname, dob, gender, image, id){
                 <button class="edit" onclick="editStudent('${id}', this)">Edit</button>
                 <button class="update" onclick="updateStudent('${id}', this)" disabled>Update</button>
                 <button class="delete" onclick="deleteStudent('${id}', this)">Delete</button>
-                <button class="view" onclick="findStudentCard(this, '${id}')">View</button>
+                <button class="view" onclick="singleStudentCard(this, '${id}')">View</button>
             </div> 
         </div>
         <br>
@@ -77,7 +77,7 @@ function createElement(fname, lname, dob, gender, image, id){
 }
 
 
-function findStudentCard(e, userId){
+function singleStudentCard(e, userId){
     window.location.href = '/student-entry/singleStudentView.html';
     localStorage.setItem("studentId", userId);
     console.log(userId);
@@ -101,16 +101,27 @@ function editStudent(userId, element){
         return res.json();
     }).then(data => {
         
-        data.forEach((element, index) => {
-            if(data[index]["studentId"] === userId){
-                indexValue = index;
-                inputFname[index].readOnly = false;
-                inputFname[index].focus();
-                inputLname[index].readOnly = false;
-                inputDob[index].readOnly = false;
-                updateButton[index].disabled = false;
+        // data.forEach((element, index) => {
+        //     if(data[index]["studentId"] === userId){
+        //         indexValue = index;
+        //         inputFname[index].readOnly = false;
+        //         inputFname[index].focus();
+        //         inputLname[index].readOnly = false;
+        //         inputDob[index].readOnly = false;
+        //         updateButton[index].disabled = false;
+        //     }
+        // });
+
+        for(let i=0; i < data['Data'].length; i++){
+            if(data['Data'][i]['_id'] == userId){
+                indexValue = i;
+                inputFname[i].readOnly = false;
+                inputFname[i].focus();
+                inputLname[i].readOnly = false;
+                inputDob[i].readOnly = false;
+                updateButton[i].disabled = false;
             }
-        });
+        }
 
     }).catch(err => {
         console.log(err);
@@ -127,6 +138,7 @@ function updateStudent(userid, element){
     inputFname[indexValue].readOnly = true;
     inputLname[indexValue].readOnly = true;
     inputDob[indexValue].readOnly = true;
+    updateButton[indexValue].disabled = true;
 
     const apiUrl = `http://localhost:2000/students`;
     const requestOptions = {
@@ -146,13 +158,14 @@ function updateStudent(userid, element){
         return res.json();
     }).then(data => {
         console.log(data);
-        updateButton[indexValue].disabled = true;
         inputFname[indexValue].value = inputFname[indexValue].value;
         inputLname[indexValue].value = inputLname[indexValue].value;
         location.href = location.href;
     }).catch(err => {
         console.log(err);
     });
+
+    // location.href = location.href;
 }
 
 function capitalizeFirstLetter(string) {

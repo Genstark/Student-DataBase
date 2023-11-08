@@ -12,10 +12,10 @@ function gettingData(){
     fetch(apiUrl, apiOption).then((res) => {
         return res.json();
     }).then((data) => {
-        console.log(studentId);
-        console.log(data['StudentIdData']);
+        // console.log(studentId);
+        console.log(data);
         renderElement(data['StudentIdData']);
-        localStorage.clear();
+        // localStorage.clear();
     }).catch((err) => {
         console.log("server is not working", err);
     });
@@ -23,7 +23,7 @@ function gettingData(){
 
 function renderElement(data){
     // console.log(data);
-    createElement(data["studentFname"], data["studentLname"], data["studentDateOfBirth"], data["studentGender"], data["studentImage"], data["studentId"]);
+    createElement(data["studentFname"], data["studentLname"], data["studentDateOfBirth"], data["studentGender"], data["studentImage"]['data'], data["_id"]);
 }
 
 
@@ -33,7 +33,7 @@ function createElement(fname, lname, dob, gender, image, id){
     mainClass.innerHTML += `
         <div class="studentClass">
             <div class="studentImage">
-                <img src="../node-server/uploads/${image}" alt="student-image" class="image">
+                <img src="data:image/png image/jpg;base64,${image}" alt="student-image" class="image">
             </div>
 
             <div class="outputClass">
