@@ -148,9 +148,6 @@ function updateStudent(userid, element){
     // inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
     // inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
 
-    const updateMessage = document.getElementById('update');
-    updateMessage.textContent = 'Wait';
-
     const apiUrl = `http://localhost:2000/students`;
     const requestOptions = {
         method: 'PUT',
@@ -171,7 +168,6 @@ function updateStudent(userid, element){
         console.log(data);
         inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
         inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
-        updateMessage.textContent = 'Update'
     }).catch(err => {
         console.log(err);
     });
@@ -206,11 +202,10 @@ function deleteStudent(userId, element){
         return res.json();
     }).then(data => {
         console.log(data);
+        element.parentNode.parentNode.remove();
     }).catch(err => {
         console.error("Error:", err);
     });
-
-    element.parentNode.parentNode.remove();
 }
 
 
