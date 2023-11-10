@@ -16,7 +16,7 @@
     font-size: 20px;
     /* background-color: gray; */
     background-color: #28587B;
-    width: 40%;
+    width: 49%;
     height: 500px;
     display: inline-block;
     box-sizing: border-box;
@@ -798,4 +798,8 @@
         border-radius: 8px;
         cursor: pointer;
     }
+}
+
+@media (min-width: 993px) and (max-width: 1200){
+
 }

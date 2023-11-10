@@ -53,15 +53,17 @@ async function gettingAllData(){
 
 app.get("/students", (req, res) => {
     // res.send(studentDataCollection);
+
     gettingAllData().then(data => {
         res.json({
             message: "All Student Data",
             Data: data
         });
-        // res.send(data);
-    }).catch(err => {
-        console.log(err);
+    }).catch(error => {
+        console.log(error);
     });
+    
+    // res.send(data);
 });
 
 
@@ -99,22 +101,21 @@ app.get('/students/:id', (req, res) => {
     //     }
     // }
 
-    gettingDataofSingleStudent(userId);
-    // .then(data => {
-    //     res.json({
-    //         message: "Single student data",
-    //         StudentIdData: data
-    //     });
-    // }).catch(err => {
-    //     console.log(err);
-    // });
-    res.json({
-        message: "Single student data",
-        StudentIdData: data
+    gettingDataofSingleStudent(userId).then(data => {
+        res.json({
+            message: "Single student data",
+            StudentIdData: data
+        });
+    }).catch(err => {
+        console.log(err);
     });
+    // res.json({
+    //     message: "Single student data",
+    //     StudentIdData: data
+    // });
 });
 
-let ID;
+// let ID;
 
 // const storage = multer.diskStorage({
 //     destination:(req , file , cb) => {
@@ -182,22 +183,80 @@ app.post("/students", upload.single('file'), (req, res) => {
         // recievingStudentData['studentImage'] = recievingStudentData['studentId'] + path.extname(recievingStudentData['studentImage']);
         recievingStudentData['studentImage'] = req.file.filename;
 
-        addDataMongodb(recievingStudentData, fileDocument).catch(console.error);
-
-        studentDataCollection.push(recievingStudentData);
-        // console.log(req.studentid);
-        console.table(studentDataCollection);
-
-        res.json({
-            message: 'ok',
-            data: req.body
+        addDataMongodb(recievingStudentData, fileDocument).then(reply => {
+            res.json({
+                message: 'ok',
+                data: req.body,
+            });
+        }).catch(err => {
+            console.log(err);
         });
-    }
-    catch(err){
-        console.error(`Error occured while adding new Student`);
-    }
+    } 
+    catch(error){
+        res.statusCode = 500;
+        console.log(error);
+    };
+
+    // studentDataCollection.push(recievingStudentData);
+    // console.log(req.studentid);
+    console.table(studentDataCollection);
 });
 
+
+async function updateDataMongodb(studentdata){
+    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
+    const client = new MongoClient(uri);
+
+    try{
+        // Connect to the MongoDB cluster
+        await client.connect();
+        // Make the appropriate changes in your code here
+        const db = client.db('student');
+        const collection = db.collection('student_details');
+
+        const data = {
+            $set : {
+                studentFname : capitalizeFirstLetter(studentdata['studentFname']),
+                studentLname : capitalizeFirstLetter(studentdata['studentLname']),
+                studentDateOfBirth : studentdata['studentDateOfBirth']
+            }
+        }
+        await collection.findOneAndUpdate({ _id : studentdata['studentId'] }, data);
+    }
+    finally{
+        // Close connection to the MongoDB cluster
+        await client.close();
+    }
+}
+
+
+app.put('/students', (req, res) => {
+    let updateDate = req.body;
+    console.log(updateDate);
+    // studentDataCollection.forEach((element, index) => {
+    //     if(element['studentId'] === updateDate['studentId']){
+    //         element['studentFname'] = capitalizeFirstLetter(updateDate['studentFname']);
+    //         element['studentLname'] = capitalizeFirstLetter(updateDate['studentLname']);
+    //         element['studentDateOfBirth'] = updateDate['studentDateOfBirth'];
+    //         element['studentId'] = generateId();
+    //     }
+    // });
+
+    // updateDataMongodb(updateDate).then(data => {
+    //     res.json({
+    //         message: "data has been updated",
+    //     });
+    // }).catch(error => {
+    //     console.log(error);
+    // });
+
+    updateDataMongodb(updateDate);
+    res.json({
+        message: "data has been updated"
+    });
+
+    console.table(studentDataCollection);
+});
 
 
 async function deleteDataMongodb(userId){
@@ -235,7 +294,6 @@ app.delete("/students/:Id", (req, res) => {
     console.table(studentDataCollection);
     res.json({
         message: 'Data has deleted',
-        StudentId: nameOfThePersonToDelete
     });
 });
 
@@ -249,55 +307,6 @@ app.delete("/students/:Id", (req, res) => {
 //     });
 // }
 
-
-async function updateDataMongodb(studentdata){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri);
-
-    try{
-        // Connect to the MongoDB cluster
-        await client.connect();
-        // Make the appropriate changes in your code here
-        const db = client.db('student');
-        const collection = db.collection('student_details');
-
-        const data = {
-            $set : {
-                studentFname : capitalizeFirstLetter(studentdata['studentFname']),
-                studentLname : capitalizeFirstLetter(studentdata['studentLname']),
-                studentDateOfBirth : studentdata['studentDateOfBirth']
-            }
-        }
-        await collection.findOneAndUpdate({ _id : studentdata['studentId'] }, data, { returnOriginal : false });
-    }
-    finally{
-        // Close connection to the MongoDB cluster
-        await client.close();
-    }
-}
-
-app.put('/students', (req, res) => {
-    let updateDate = req.body;
-    console.log(updateDate);
-    // studentDataCollection.forEach((element, index) => {
-    //     if(element['studentId'] === updateDate['studentId']){
-    //         element['studentFname'] = capitalizeFirstLetter(updateDate['studentFname']);
-    //         element['studentLname'] = capitalizeFirstLetter(updateDate['studentLname']);
-    //         element['studentDateOfBirth'] = updateDate['studentDateOfBirth'];
-    //         element['studentId'] = generateId();
-    //     }
-    // });
-
-    updateDataMongodb(updateDate).then(data => {
-        res.json({
-            message: "data has been updated"
-        });
-    }).catch(err => {
-        console.log(err);
-    });
-    
-    // console.table(studentDataCollection);
-});
 
 app.listen(PORT, () => {
     console.log(`Server started on port http://localhost:${PORT}`);
@@ -317,26 +326,3 @@ function generateId(){
     }
     return result;
 }
-
-/*--------------------------------------------------------------------------------------------------------------------------------*/
-// function readJsonFile(){
-//     try{
-//         const readFile = fs.readFileSync('node-server/student.json', 'utf-8');
-//         const fileData = JSON.parse(readFile);
-//         console.log(fileData);
-//         return fileData;
-//     }
-//     catch{
-//         console.log('file is empty');
-//     }
-// }
-
-// function writeJsonFile(){
-//     try{
-//         const writeFile = fs.writeFileSync('node-server/student.json', JSON.stringify([element]), 'utf-8');
-//         console.log(writeFile);
-//     }
-//     catch{
-//         console.log('can not find file');
-//     }
-// }

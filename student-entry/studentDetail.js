@@ -13,7 +13,7 @@ function gettingData(){
         console.log(data);
         renderElement(data['Data']);
     }).catch((err) => {
-        console.log("server is not workin\n", err);
+        console.log("server is not working\n", err);
     });
 }
 
@@ -26,7 +26,7 @@ function capitalizeFirstLetter(string) {
 function renderElement(data){
     for(let i=0; i < data.length; i++){
         createElement(capitalizeFirstLetter(data[i]["studentFname"]), capitalizeFirstLetter(data[i]["studentLname"]), 
-            capitalizeFirstLetter(data[i]["studentDateOfBirth"]), capitalizeFirstLetter(data[i]["studentGender"]), data[i]['studentImage']['data'], data[i]["_id"]);
+            data[i]["studentDateOfBirth"], data[i]["studentGender"], data[i]['studentImage']['data'], data[i]["_id"]);
     }
 }
 
@@ -40,7 +40,7 @@ function createElement(fname, lname, dob, gender, image, id){
             </div>
 
             <div class="outputClass">
-                <label class="labelFname">First Name: </label> 
+                <label class="labelFname" for="edit">First Name: </label> 
                 <input type="text" value="${fname}" class="inputFname" readonly>
             </div>
             
@@ -66,10 +66,10 @@ function createElement(fname, lname, dob, gender, image, id){
             
             <div class="buttonClass">
                 <hr>
-                <button class="edit" onclick="editStudent('${id}', this)">Edit</button>
-                <button class="update" onclick="updateStudent('${id}', this)" disabled>Update</button>
-                <button class="delete" onclick="deleteStudent('${id}', this)">Delete</button>
-                <button class="view" onclick="singleStudentCard(this, '${id}')">View</button>
+                <button class="edit" id="edit" onclick="editStudent('${id}', this)">Edit</button>
+                <button class="update" id="update" onclick="updateStudent('${id}', this)" disabled>Update</button>
+                <button class="delete" id="delete" onclick="deleteStudent('${id}', this)">Delete</button>
+                <button class="view" id="view" onclick="singleStudentCard(this, '${id}')">View</button>
             </div> 
         </div>
         <br>
@@ -91,7 +91,10 @@ function editStudent(userId, element){
     let inputLname = document.querySelectorAll(".inputLname");
     let inputDob = document.querySelectorAll(".inputDob");
     let updateButton = document.querySelectorAll('.update');
-    
+    const edit = document.getElementById('edit');
+
+    edit.textContent = 'Wait';
+
     const apiUrl = "http://localhost:2000/students";
     const apiOption = {
         method: "GET"
@@ -120,6 +123,7 @@ function editStudent(userId, element){
                 inputLname[i].readOnly = false;
                 inputDob[i].readOnly = false;
                 updateButton[i].disabled = false;
+                edit.textContent = 'Edit';
             }
         }
 
@@ -140,6 +144,13 @@ function updateStudent(userid, element){
     inputDob[indexValue].readOnly = true;
     updateButton[indexValue].disabled = true;
 
+
+    // inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
+    // inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
+
+    const updateMessage = document.getElementById('update');
+    updateMessage.textContent = 'Wait';
+
     const apiUrl = `http://localhost:2000/students`;
     const requestOptions = {
         method: 'PUT',
@@ -158,12 +169,24 @@ function updateStudent(userid, element){
         return res.json();
     }).then(data => {
         console.log(data);
-        inputFname[indexValue].value = inputFname[indexValue].value;
-        inputLname[indexValue].value = inputLname[indexValue].value;
-        location.href = location.href;
+        inputFname[indexValue].value = capitalizeFirstLetter(inputFname[indexValue].value);
+        inputLname[indexValue].value = capitalizeFirstLetter(inputLname[indexValue].value);
+        updateMessage.textContent = 'Update'
     }).catch(err => {
         console.log(err);
     });
+
+    // fetch(apiUrl, requestOptions).then(res => {
+    //     return res.json();
+    // }).then(data => {
+    //     console.log(data);
+    //     inputFname[indexValue].value = inputFname[indexValue].value;
+    //     inputLname[indexValue].value = inputLname[indexValue].value;
+    //     updateMessage.textContent = 'View All Students'
+    //     // location.href = location.href;
+    // }).catch(err => {
+    //     console.log(err);
+    // });
 
     // location.href = location.href;
 }

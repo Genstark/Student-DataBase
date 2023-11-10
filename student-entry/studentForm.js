@@ -113,13 +113,16 @@ async function postRequest() {
         const apiOption = {
             method: 'POST',
             // headers: {
-            //     'Content-Type': 'application/json'
-            //     // 'Content-Type': 'multipart/form-data'
+            //     'Content-Type': 'application/json',
+            //     'Content-Type': 'multipart/form-data'
             // },
             body: formData
         }
 
         // localStorage.setItem("item", JSON.stringify(confirmRequest));
+
+        const submitdata = document.getElementById('submitdata');
+        submitdata.textContent = 'Loading....';
 
         await fetch(apiUrl, apiOption).then(res => {
             return res.json();
@@ -128,6 +131,7 @@ async function postRequest() {
                 confirmRequest.splice(0, confirmRequest.length);
                 // localStorage.clear("item");
                 console.log(data);
+                submitdata.textContent = 'Create Student';
             }
         }).catch(err => {
             console.log("disconnected with server");
