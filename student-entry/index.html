@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Entry</title>
+    <link rel="stylesheet" href="/student-entry/studentForm.css">
+</head>
+<body>
+    
+    <div class="heading">
+        <h1>Student Data Base</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="mainclass">
+
+            <div class="inputclass">
+                <label for="fname" class="labelfname">First Name: </label><br>
+                <input type="text" id="fname" placeholder="First Name" class="fname">
+                <span class="error"></span><!--0-->
+            </div>
+
+            <div class="inputclass">
+                <label for="lname" class="labellname">Last Name: </label><br>
+                <input type="text" id="lname" placeholder="Last Name" class="lname">
+                <span class="error"></span><!--1-->
+            </div>
+
+            <div class="inputclass">
+                <label for="date" class="labeldob">Date of Birth: </label><br>
+                <input type="date" id="date" placeholder="Date" class="date">
+                <!-- <input type="number" id="month" placeholder="Month" class="month" min="1" max="12">
+                <input type="number" id="year" placeholder="Year" class="year" min="1900" max="9999"> -->
+                <span class="error"></span><!--2-->
+            </div>
+
+            <div class="inputclass">
+                <label for="gender" class="labelgender">Gender: </label><br>
+                <select name="student gender" id="gender" class="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="studentPhoto">
+                <input type="file" name="file" class="imageFile" id="studentimage">
+                <!-- <button id="submitimage">submit image</button> -->
+                <span class="error"></span><!--3-->
+            </div>
+            
+            <div class="submitclass">
+                <!-- <button onclick="dataSendToServer()" class="submitdata">Create Student</button> -->
+                <button id="submitdata" class="submitdata">Create Student</button>
+                <!-- <button onclick="studentPhoto()" class="viewdata" id="imageinput">View Data</button> -->
+            </div>
+
+            <div class="next-page">
+                <button onclick="dataRecievetoServer()" class="change-view">View All Students</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/student-entry/studentForm.js"></script>
+</body>
+</html>
