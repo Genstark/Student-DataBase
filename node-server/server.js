@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const { MongoClient, ObjectId } = require('mongodb');
+const CryptoJS = require("crypto-js");
 
 
 app.use(express.json());
@@ -29,11 +30,11 @@ const studentDataCollection = [];
 
 const PORT = 2000;
 
-
+const uri = "U2FsdGVkX18ktVyMPp2csjvwfjU7ag3QXB4NtLNtmz/P42EAiEADHHRRNUlbrCQzhRYEVCrxuFcKMOfPGTHzFD6RoNCfmMIwi7XC9zQ2rjnJ09veUO6NBUHlr3/mVz88G9HarfUuWYh92Cl79hzwUR3S63bXV7G22oVzaWJ0VHTkWImkC+YH173Vqip5tpBR";
 
 async function gettingAllData(){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri);
+
+    const client = new MongoClient(Decrypt(uri));
 
     try{
         // Connect to the MongoDB cluster
@@ -68,8 +69,8 @@ app.get("/students", (req, res) => {
 
 
 async function gettingDataofSingleStudent(userId){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri);
+
+    const client = new MongoClient(Decrypt(uri));
 
     try{
         // Connect to the MongoDB cluster
@@ -137,8 +138,8 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 async function addDataMongodb(data, image){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+    const client = new MongoClient(Decrypt(uri), { useUnifiedTopology: true });
 
     try{
         // Connect to the MongoDB cluster
@@ -204,8 +205,8 @@ app.post("/students", upload.single('file'), (req, res) => {
 
 
 async function updateDataMongodb(studentdata){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri);
+
+    const client = new MongoClient(Decrypt(uri));
 
     try{
         // Connect to the MongoDB cluster
@@ -260,8 +261,8 @@ app.put('/students', (req, res) => {
 
 
 async function deleteDataMongodb(userId){
-    const uri = "mongodb+srv://gy523314:%40genwarrior123%40@cluster0.3e0eraj.mongodb.net/?retryWrites=true&w=majority/Student_Database";
-    const client = new MongoClient(uri);
+
+    const client = new MongoClient(Decrypt(uri));
 
     try{
         // Connect to the MongoDB cluster
@@ -313,6 +314,8 @@ app.listen(PORT, () => {
 });
 
 
+/*-------------------------------------------------------------------------------------------------------------------------------*/
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
@@ -326,3 +329,18 @@ function generateId(){
     }
     return result;
 }
+
+/*-------------------------------------------------------------------------------------------------------------------------------*/
+
+function Encryption(password){
+    const ciphertext = CryptoJS.AES.encrypt(password, 'secret key 123').toString();
+    return ciphertext;
+}
+
+
+function Decrypt(passowrd){
+    const bytes = CryptoJS.AES.decrypt(passowrd, 'secret key 123');
+    const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    return plaintext;
+}
+/*-------------------------------------------------------------------------------------------------------------------------------*/
